@@ -97,7 +97,12 @@ ok(
   U.updateCheckConfigured(manifestUrl) && manifestUrl.endsWith('/HayatAlSahabah/version.json')
 );
 ok('share url is this app’s central page', C.SHARE_URL === 'https://elyasyy23-lgtm.github.io/FocusBlocker/hayatsahabah.html');
-ok('version matches app version', C.APP_VERSION === '1.0.0');
+const APP_JSON = JSON.parse(readFileSync(join(root, 'app.json'), 'utf8'));
+ok(
+  'version matches app version',
+  C.APP_VERSION === APP_JSON.expo.version,
+  `${C.APP_VERSION} vs ${APP_JSON.expo.version}`,
+);
 ok('persian notice is the approved text', U.UPDATE_MESSAGE_FA === 'نسخه جدید برنامه منتشر شده است. لطفاً برای دریافت آخرین امکانات، برنامه را بروزرسانی کنید.');
 ok('english twin present', U.UPDATE_MESSAGE_EN.length > 20);
 
@@ -131,8 +136,9 @@ ok(
 );
 
 /* ---------- notify decision ---------- */
-ok('notify on newer', U.shouldNotify({ latestVersion: '1.0.1', downloadUrl: 'https://e.com/a.apk', pageUrl: null }) === true);
-ok('silent on same', U.shouldNotify({ latestVersion: '1.0.0', downloadUrl: 'https://e.com/a.apk', pageUrl: null }) === false);
+const bumped = C.APP_VERSION.split('.').map((n, i) => (i === 2 ? String(Number(n) + 1) : n)).join('.');
+ok('notify on newer', U.shouldNotify({ latestVersion: bumped, downloadUrl: 'https://e.com/a.apk', pageUrl: null }) === true, bumped);
+ok('silent on same', U.shouldNotify({ latestVersion: C.APP_VERSION, downloadUrl: 'https://e.com/a.apk', pageUrl: null }) === false);
 ok('silent on older', U.shouldNotify({ latestVersion: '0.9.9', downloadUrl: 'https://e.com/a.apk', pageUrl: null }) === false);
 ok('silent on null', U.shouldNotify(null) === false);
 

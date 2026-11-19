@@ -7,7 +7,7 @@
 
 export const APP_NAME_FA = 'حیات صحابه';
 export const APP_NAME_EN = 'Hayat al-Sahabah';
-export const APP_VERSION = '1.0.0';
+export const APP_VERSION = '1.1.0';
 
 export const SUPPORT_RUBIKA_ID = '@yasmajyd';
 export const SUPPORT_RUBIKA_URL = 'https://rubika.ir/yasmajyd';
