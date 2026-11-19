@@ -84,16 +84,19 @@ ok('empty url not configured', U.updateCheckConfigured('') === false);
 ok('https configured', U.updateCheckConfigured('https://e.com/version.json') === true);
 ok('http not configured', U.updateCheckConfigured('http://e.com/version.json') === false);
 ok('default constant matches config gate', U.updateCheckConfigured() === U.updateCheckConfigured(U.UPDATE_MANIFEST_URL));
-// The shipped manifest must be either empty (disabled) or a real https URL on
-// THIS app's own repo — never a borrowed/placeholder host.
+// The shipped manifest must point at this app's own folder on the owner's
+// CENTRAL app site (one hub for every app) — never at a raw repo file or
+// another app's section.
 const manifestUrl = U.UPDATE_MANIFEST_URL.trim();
 ok(
-  'manifest url is empty or our own repo',
-  manifestUrl === '' ||
-    (manifestUrl.startsWith('https://raw.githubusercontent.com/elyasyy23-lgtm/HayatAlSahabah/') &&
-      manifestUrl.endsWith('/version.json'))
+  'manifest url is the central app-site manifest',
+  manifestUrl === 'https://elyasyy23-lgtm.github.io/FocusBlocker/HayatAlSahabah/version.json'
 );
-ok('manifest never borrows the FocusBlocker site', !manifestUrl.includes('FocusBlocker'));
+ok(
+  'manifest is http-verified https and app-scoped',
+  U.updateCheckConfigured(manifestUrl) && manifestUrl.endsWith('/HayatAlSahabah/version.json')
+);
+ok('share url is this app’s central page', C.SHARE_URL === 'https://elyasyy23-lgtm.github.io/FocusBlocker/hayatsahabah.html');
 ok('version matches app version', C.APP_VERSION === '1.0.0');
 ok('persian notice is the approved text', U.UPDATE_MESSAGE_FA === 'نسخه جدید برنامه منتشر شده است. لطفاً برای دریافت آخرین امکانات، برنامه را بروزرسانی کنید.');
 ok('english twin present', U.UPDATE_MESSAGE_EN.length > 20);

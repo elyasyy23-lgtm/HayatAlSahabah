@@ -17,12 +17,12 @@
 import { APP_VERSION } from './config';
 
 /**
- * Public manifest URL — `version.json` at the root of THIS app's own repo.
- * To announce a release, edit only `latestVersion` in that file on `main`.
- * (The older FocusBlocker site is deliberately not reused.)
+ * Public manifest URL — `version.json` under this app's folder on the owner's
+ * central app site. The download + detail pages live on the same hub, so a
+ * release is announced by editing only `latestVersion` in that file.
  */
 export const UPDATE_MANIFEST_URL =
-  'https://raw.githubusercontent.com/elyasyy23-lgtm/HayatAlSahabah/main/version.json';
+  'https://elyasyy23-lgtm.github.io/FocusBlocker/HayatAlSahabah/version.json';
 
 /** Owner-approved wording, shown verbatim. */
 export const UPDATE_MESSAGE_FA =

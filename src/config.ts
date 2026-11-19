@@ -12,8 +12,12 @@ export const APP_VERSION = '1.0.0';
 export const SUPPORT_RUBIKA_ID = '@yasmajyd';
 export const SUPPORT_RUBIKA_URL = 'https://rubika.ir/yasmajyd';
 
-/** Public download page for this app — must NOT point at another app's site. */
-export const SHARE_URL = '';
+/**
+ * Public download page for this app, on the owner's central app site
+ * (every app lives under one hub — never a separate per-app site).
+ * Must point at THIS app's own section, not another app's page.
+ */
+export const SHARE_URL = 'https://elyasyy23-lgtm.github.io/FocusBlocker/hayatsahabah.html';
 
 /** Crypto donation destination — only after the owner confirms address + purpose. */
 export const DONATION_WALLET = '';
