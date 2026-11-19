@@ -24,7 +24,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "verify:update": "node scripts/verify-update.mjs"
+    "verify:update": "node scripts/verify-update.mjs",
+    "verify:template": "node scripts/verify-template.mjs",
+    "verify": "node scripts/verify-update.mjs && node scripts/verify-template.mjs"
   },
   "private": true
 }

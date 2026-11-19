@@ -108,12 +108,14 @@ const DICT: Record<string, Pair> = {
   'support.subtitle': ['ارتباط با ما', 'Contact us'],
   'support.rubika': ['پیام در روبیکا', 'Message on Rubika'],
   'support.rubikaHint': ['پرسش، پیشنهاد یا گزارش خطا را از این راه بفرستید.', 'Send questions, suggestions or bug reports here.'],
+  'support.copyId': ['رونوشت شناسه', 'Copy ID'],
 
   'donate.title': ['حمایت از ما', 'Support us'],
   'donate.subtitle': ['کمک به ادامهٔ کار', 'Help keep the work going'],
-  'donate.pending': ['نشانی کیف پول هنوز تأیید نشده و پرداختی انجام نمی‌شود.', 'The wallet address is not confirmed yet, so no payment is offered.'],
   'donate.network': ['شبکه', 'Network'],
-  'donate.wallet': ['نشانی کیف پول', 'Wallet address'],
+  'donate.wallet': ['نشانی کیف پول (USDT · TRC20)', 'Wallet address (USDT · TRC20)'],
+  'donate.copyWallet': ['رونوشت نشانی', 'Copy address'],
+  'donate.note': ['پیش از انتقال، شبکهٔ TRC20 را انتخاب کنید؛ انتقال در شبکهٔ دیگر ممکن است از دست برود.', 'Choose the TRC20 network before sending; a transfer on another network may be lost.'],
 
   'logs.title': ['گزارش‌های خطا', 'Error log'],
   'logs.subtitle': ['رویدادهای همین دستگاه', 'Events on this device'],
