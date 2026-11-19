@@ -1,0 +1,77 @@
+name: Build Release APK
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Prebuild Android project
+        run: npx expo prebuild --platform android --clean --no-install
+
+      - name: Build release APK
+        run: |
+          cd android
+          ./gradlew assembleRelease \
+            -PreactNativeArchitectures=arm64-v8a,armeabi-v7a \
+            --no-daemon
+
+      - name: Collect APK
+        run: |
+          mkdir -p artifacts
+          cp android/app/build/outputs/apk/release/app-release.apk artifacts/Hayat-release.apk
+          ls -l artifacts
+
+      - name: Report APK facts
+        run: |
+          set -e
+          APK=artifacts/Hayat-release.apk
+          APKTOOL=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | head -1)
+          echo "size: $(stat -c%s "$APK") bytes"
+          echo "sha256: $(sha256sum "$APK" | cut -d' ' -f1)"
+          "$APKTOOL" dump badging "$APK" | grep -E "^(package|application-label|sdkVersion|targetSdkVersion)" || true
+          unzip -l "$APK" | grep -E "lib/(arm64-v8a|armeabi-v7a)/libreactnative" || true
+          unzip -l "$APK" | grep -c "assets/db/hayat-v1.db" || true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hayat-release-apk
+          path: artifacts/Hayat-release.apk
+          if-no-files-found: error
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/Hayat-release.apk
+          generate_release_notes: true
+          fail_on_unmatched_files: true
